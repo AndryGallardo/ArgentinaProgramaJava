@@ -38,6 +38,9 @@ public class Archivos {
         Path arch1 = Paths.get("/Users/jandres/Documents/ArgentinaPrograma/Clase4/Archivo1.txt" );
         Path arch2 = Paths.get("/Users/jandres/Documents/ArgentinaPrograma/Clase4/Archivo2.txt" );
         Path arch3 = Paths.get("/Users/jandres/Documents/ArgentinaPrograma/Clase3/Archivo3.txt" );
+
+
+
         //Files.copy(arch1, arch2);
         //Files.move(arch1, arch3);
 
