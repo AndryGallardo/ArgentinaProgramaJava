@@ -20,7 +20,7 @@ class CalculadoraTest {
     @Test
     void restaTest() {
         Calculadora calculadora = new Calculadora();
-        double resultado = calculadora.resta(2, 3);
+        double resultado = calculadora.restar(2, 3);
         assertEquals(-1, resultado);
     }
 }
