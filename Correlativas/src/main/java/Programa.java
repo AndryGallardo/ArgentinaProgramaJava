@@ -1,64 +1,33 @@
 import modelo.Alumno;
+import modelo.Inscripcion;
 import modelo.Materia;
+import util.ArchivosUtil;
+import util.SimuladorBaseDatos;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 public class Programa {
-    public static void main(String[] args) {
-        Materia matematicaI = new Materia("Matemática I");
-        Materia introInformatica = new Materia("Introducción a la Informática");
-        Materia algoritmos = new Materia("Algoritmos y Estructuras de Datos");
-        Materia programacionI = new Materia("Programación I");
-        Materia sistemasOperativos = new Materia("Sistemas Operativos");
-        Materia basesDeDatos = new Materia("Bases de Datos");
-        Materia programacionII = new Materia("Programación II");
-        Materia redesDeComputadoras = new Materia("Redes de Computadoras");
-        Materia ingenieriaSoftware = new Materia("Ingeniería de Software");
-        Materia programacionWeb = new Materia("Programación Web");
-        Materia desarrolloAppsMoviles = new Materia("Desarrollo de Aplicaciones Móviles");
-        Materia seguridadInformatica = new Materia("Seguridad Informática");
+    public static void main(String[] args) throws IOException {
 
-        // Agregando las materias correlativas
-        algoritmos.agregarCorrelativa(matematicaI);
-        algoritmos.agregarCorrelativa(introInformatica);
+        SimuladorBaseDatos.inicializarBaseDatos();
 
-        programacionI.agregarCorrelativa(algoritmos);
+        List<Inscripcion> inscripciones = ArchivosUtil.getInscripciones();
+        for (Inscripcion inscripcion : inscripciones) {
+            Optional<Materia> materiaOptional = SimuladorBaseDatos.buscarMateria(inscripcion.getMateria());
+            if(materiaOptional.isPresent()) {
+                inscripcion.setMateria(materiaOptional.get());
+            }
 
-        sistemasOperativos.agregarCorrelativa(algoritmos);
-        sistemasOperativos.agregarCorrelativa(programacionI);
+            Optional<Alumno> alumnoOptional = SimuladorBaseDatos.buscarAlumno(inscripcion.getAlumno());
+            if(alumnoOptional.isPresent()) {
+                inscripcion.setAlumno(alumnoOptional.get());
+            } else {
+                inscripcion.getAlumno().setLegajo(null);
+            }
+        }
 
-        basesDeDatos.agregarCorrelativa(algoritmos);
-        basesDeDatos.agregarCorrelativa(programacionI);
-
-        programacionII.agregarCorrelativa(programacionI);
-        programacionII.agregarCorrelativa(sistemasOperativos);
-
-        redesDeComputadoras.agregarCorrelativa(sistemasOperativos);
-
-        ingenieriaSoftware.agregarCorrelativa(programacionI);
-        ingenieriaSoftware.agregarCorrelativa(basesDeDatos);
-
-        programacionWeb.agregarCorrelativa(programacionII);
-        programacionWeb.agregarCorrelativa(basesDeDatos);
-
-        desarrolloAppsMoviles.agregarCorrelativa(programacionII);
-        desarrolloAppsMoviles.agregarCorrelativa(basesDeDatos);
-
-        seguridadInformatica.agregarCorrelativa(redesDeComputadoras);
-        seguridadInformatica.agregarCorrelativa(ingenieriaSoftware);
-
-        Alumno jose = new Alumno("José Rodríguez", "1245");
-        jose.agregarMateriaAprobada(matematicaI);
-        jose.agregarMateriaAprobada(introInformatica);
-        jose.agregarMateriaAprobada(algoritmos);
-
-        Alumno vanesa = new Alumno("Vanesa Sosa", "545");
-        vanesa.agregarMateriaAprobada(algoritmos);
-
-        Collection<Alumno> alumnos = new ArrayList<>();
-        alumnos.add(jose);
-        alumnos.add(vanesa);
-        System.out.println("Hola!!!!");
+        ArchivosUtil.grabarResultadoInscripciones(inscripciones);
     }
 }
