@@ -1,4 +1,4 @@
-### Ejercicio propuesto 3 clase 5 
+## Ejercicio propuesto 3 clase 5 
 
 Genera una clase llamada Password que siga las siguientes condiciones:
 
